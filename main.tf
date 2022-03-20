@@ -7,7 +7,8 @@ terraform {
 }
 
 provider "aws" {
-  region  = "us-west-2"
+  region  = "eu-central-1"
+  profile = "me"
 }
 
 data "aws_availability_zones" "available" {
@@ -28,8 +29,8 @@ module "vpc" {
   enable_vpn_gateway = false
 
   tags = {
-    project     = "project-alpha",
-    environment = "dev"
+    project     = "lrn-trf-variables",
+    environment = "learning"
   }
 }
 
@@ -37,15 +38,15 @@ module "app_security_group" {
   source  = "terraform-aws-modules/security-group/aws//modules/web"
   version = "3.17.0"
 
-  name        = "web-sg-project-alpha-dev"
+  name        = "web-sg-lrn-trf-variables-learning"
   description = "Security group for web-servers with HTTP ports open within VPC"
   vpc_id      = module.vpc.vpc_id
 
   ingress_cidr_blocks = module.vpc.public_subnets_cidr_blocks
 
   tags = {
-    project     = "project-alpha",
-    environment = "dev"
+    project     = "learn-terraform-variables",
+    environment = "learning"
   }
 }
 
@@ -53,15 +54,15 @@ module "lb_security_group" {
   source  = "terraform-aws-modules/security-group/aws//modules/web"
   version = "3.17.0"
 
-  name        = "lb-sg-project-alpha-dev"
+  name        = "lb-sg-lrn-trf-variables-learn"
   description = "Security group for load balancer with HTTP ports open within VPC"
   vpc_id      = module.vpc.vpc_id
 
   ingress_cidr_blocks = ["0.0.0.0/0"]
 
   tags = {
-    project     = "project-alpha",
-    environment = "dev"
+    project     = "learn-terraform-variables",
+    environment = "learning"
   }
 }
 
@@ -75,7 +76,7 @@ module "elb_http" {
   version = "2.4.0"
 
   # Ensure load balancer name is unique
-  name = "lb-${random_string.lb_id.result}-project-alpha-dev"
+  name = "lb-${random_string.lb_id.result}-lrn-trf-variables-learn"
 
   internal = false
 
@@ -101,8 +102,8 @@ module "elb_http" {
   }
 
   tags = {
-    project     = "project-alpha",
-    environment = "dev"
+    project     = "learn-terraform-variables",
+    environment = "learning"
   }
 }
 
@@ -115,7 +116,7 @@ module "ec2_instances" {
   security_group_ids = [module.app_security_group.this_security_group_id]
 
   tags = {
-    project     = "project-alpha",
-    environment = "dev"
+    project     = "learn-terraform-variables",
+    environment = "learning"
   }
 }
