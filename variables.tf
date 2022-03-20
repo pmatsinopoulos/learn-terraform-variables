@@ -65,3 +65,12 @@ variable "enable_vpn_gateway" {
   type        = bool
   default     = false
 }
+
+variable "resource_tags" {
+  description = "Tags to set for all resources"
+  type = map(string)
+  default = {
+    project = "learn-terraform-variables"
+    environment = "learning"
+  }
+}
