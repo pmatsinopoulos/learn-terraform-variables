@@ -68,9 +68,14 @@ variable "enable_vpn_gateway" {
 
 variable "resource_tags" {
   description = "Tags to set for all resources"
-  type = map(string)
+  type        = map(string)
   default = {
-    project = "learn-terraform-variables"
+    project     = "learn-terraform-variables"
     environment = "learning"
   }
+}
+
+variable "ec2_instance_type" {
+  description = "Instance type of EC2 instances to instantiate"
+  type        = string
 }
